@@ -1,6 +1,7 @@
 // File: assets/js/navbar.js
 
-document.addEventListener("DOMContentLoaded", () => {
+console.log("navbar.js loaded!");
+.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname.split("/").pop();
   const navMenu = document.getElementById("nav-menu");
   const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; // opsional
