@@ -9,7 +9,7 @@ const listBBM = document.getElementById("list-bbm");
 const listHybrid = document.getElementById("list-hybrid");
 const listListrik = document.getElementById("list-listrik");
 
-// Format kartu deskripsi kendaraan
+// Fungsi membuat kartu kendaraan
 function createKendaraanCard(data) {
   const {
     nama = "-",
@@ -39,7 +39,7 @@ function createKendaraanCard(data) {
     </div>`;
 }
 
-// Ambil data kendaraan dan tampilkan
+// Ambil dan tampilkan data dari Firestore
 kendaraanRef.get().then(snapshot => {
   let total = 0;
   snapshot.forEach(doc => {
@@ -47,12 +47,16 @@ kendaraanRef.get().then(snapshot => {
     total++;
 
     const cardHTML = createKendaraanCard(data);
-    if (data.jenis === "BBM") {
-      listBBM.innerHTML += cardHTML;
-    } else if (data.jenis === "Hybrid") {
-      listHybrid.innerHTML += cardHTML;
-    } else if (data.jenis === "Listrik") {
-      listListrik.innerHTML += cardHTML;
+    switch (data.jenis) {
+      case "BBM":
+        listBBM.innerHTML += cardHTML;
+        break;
+      case "Hybrid":
+        listHybrid.innerHTML += cardHTML;
+        break;
+      case "Listrik":
+        listListrik.innerHTML += cardHTML;
+        break;
     }
   });
   totalKendaraanEl.textContent = total;
