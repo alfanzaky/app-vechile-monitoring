@@ -1,24 +1,27 @@
-// navbar.js
-const currentPage = window.location.pathname.split('/').pop();
-const navMenu = document.getElementById('nav-menu');
-const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; // opsional kalau nanti pakai auth
+// File: assets/js/navbar.js
 
-if (navMenu) {
-  // Kalau bukan di index.html, tambahin link ke Beranda
-  if (currentPage !== "index.html") {
+document.addEventListener("DOMContentLoaded", () => {
+  const currentPage = window.location.pathname.split("/").pop();
+  const navMenu = document.getElementById("nav-menu");
+  const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; // opsional
+
+  if (!navMenu) return;
+
+  // Tambah Beranda jika bukan index.html
+  if (currentPage !== "index.html" && currentPage !== "") {
     navMenu.innerHTML += `
       <li class="nav-item">
         <a class="nav-link" href="/app-vehicle-monitoring/index.html">Beranda</a>
       </li>`;
   }
 
-  // Link ke halaman Tentang
+  // Tambah menu Tentang
   navMenu.innerHTML += `
     <li class="nav-item">
       <a class="nav-link" href="/app-vehicle-monitoring/pages/tentang.html">Tentang</a>
     </li>`;
 
-  // Login atau Profil
+  // Menu Login atau Profil
   if (isLoggedIn) {
     navMenu.innerHTML += `
       <li class="nav-item">
@@ -30,4 +33,4 @@ if (navMenu) {
         <a class="nav-link" href="/app-vehicle-monitoring/pages/login.html">Login</a>
       </li>`;
   }
-}
+});
