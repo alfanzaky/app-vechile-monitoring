@@ -1,96 +1,86 @@
 <!DOCTYPE html><html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard - Vehicle Monitoring</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Kendaraan</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <!-- Navbar -->
-  <div id="navbar-placeholder"></div>  <main class="container py-5">
-    <h1 class="mb-4">Dashboard Monitoring Kendaraan</h1><!-- Total Kendaraan -->
-<div class="row mb-4">
-  <div class="col-md-12">
-    <div class="card border-primary shadow-sm">
+  <div id="navbar-placeholder"></div>  <div class="container mt-5">
+    <!-- Total Kendaraan -->
+    <div class="card text-bg-primary mb-4 shadow">
       <div class="card-body text-center">
-        <h5 class="card-title">Total Kendaraan</h5>
-        <p class="card-text display-4 fw-bold" id="total-kendaraan">0</p>
+        <h4 class="card-title">Total Kendaraan</h4>
+        <h1 id="total-kendaraan">0</h1>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- 3 Jenis Kendaraan -->
-<div class="row g-4">
-  <div class="col-md-4">
-    <div class="card border-danger shadow-sm">
-      <div class="card-body text-center">
-        <div class="rounded-circle bg-danger text-white d-inline-flex align-items-center justify-content-center mb-2" style="width:40px; height:40px;">
-          <i class="bi bi-fuel-pump"></i>
+    </div><!-- Kategori Kendaraan -->
+<div class="row" id="kategori-kendaraan">
+  <!-- Card BBM -->
+  <div class="col-md-4 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-danger text-white">
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
+          <h5 class="mb-0">Kendaraan BBM</h5>
         </div>
-        <h5 class="card-title">Kendaraan BBM</h5>
-        <p class="card-text display-6" id="total-bbm">0</p>
+      </div>
+      <div class="card-body" id="list-bbm">
+        <!-- Data BBM muncul di sini -->
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="card border-success shadow-sm">
-      <div class="card-body text-center">
-        <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-2" style="width:40px; height:40px;">
-          <i class="bi bi-lightning-charge"></i>
+
+  <!-- Card Hybrid -->
+  <div class="col-md-4 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-success text-white">
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
+          <h5 class="mb-0">Kendaraan Hybrid</h5>
         </div>
-        <h5 class="card-title">Kendaraan Hybrid</h5>
-        <p class="card-text display-6" id="total-hybrid">0</p>
+      </div>
+      <div class="card-body" id="list-hybrid">
+        <!-- Data Hybrid muncul di sini -->
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="card border-warning shadow-sm">
-      <div class="card-body text-center">
-        <div class="rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center mb-2" style="width:40px; height:40px;">
-          <i class="bi bi-battery-charging"></i>
+
+  <!-- Card Listrik -->
+  <div class="col-md-4 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-info text-white">
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
+          <h5 class="mb-0">Kendaraan Listrik</h5>
         </div>
-        <h5 class="card-title">Kendaraan Listrik</h5>
-        <p class="card-text display-6" id="total-listrik">0</p>
+      </div>
+      <div class="card-body" id="list-listrik">
+        <!-- Data Listrik muncul di sini -->
       </div>
     </div>
   </div>
 </div>
 
-<!-- Grafik Statistik -->
-<div class="my-5">
-  <h4>Statistik Grafik Kendaraan</h4>
-  <canvas id="vehicleChart" height="100"></canvas>
+<!-- Tombol Tambah -->
+<div class="text-center mt-4">
+  <a href="pages/input.html" class="btn btn-primary btn-lg shadow">➕ Tambah Kendaraan</a>
 </div>
 
-<!-- Monitoring Terbaru -->
-<div class="card mb-5">
-  <div class="card-header bg-light fw-bold">Monitoring Kendaraan Terbaru</div>
-  <div class="card-body">
-    <ul class="mb-0">
-      <li><strong>Plat Nomor:</strong> B 1234 XYZ</li>
-      <li><strong>Jenis:</strong> Hybrid</li>
-      <li><strong>Odometer:</strong> 82.400 KM</li>
-      <li><strong>Servis Terakhir:</strong> 10 Juni 2025</li>
-      <li><strong>Status Servis:</strong> ⚠️ Segera diservis</li>
-    </ul>
-  </div>
-</div>
-
-<!-- Info Singkat -->
-<div class="mb-5">
-  <h4>Info Singkat</h4>
-  <ul>
-    <li>Gunakan menu <strong>Input Data</strong> untuk menambahkan kendaraan baru.</li>
-    <li>Riwayat kendaraan akan muncul di halaman <strong>Riwayat</strong>.</li>
-    <li>Data saat ini disimpan sementara di browser (local storage).</li>
-  </ul>
-</div>
-
-  </main>  <!-- Footer -->  <div id="footer-placeholder"></div>  <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>  <script src="assets/js/main.js"></script>  <script>
+  </div>  <!-- Footer -->  <div id="footer-placeholder" class="mt-5"></div>  <!-- Firebase SDKs -->  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTg2n5VbxK4TE_PXApgVAkXZrIzgcZyg4",
+      authDomain: "app-vechile-monitoring.firebaseapp.com",
+      projectId: "app-vechile-monitoring",
+      storageBucket: "app-vechile-monitoring.firebasestorage.app",
+      messagingSenderId: "711559642671",
+      appId: "1:711559642671:web:101441af216de18cdb50da"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+  </script>  <!-- Script Loader -->  <script>
     fetch("components/navbar.html")
       .then(res => res.text())
       .then(data => document.getElementById("navbar-placeholder").innerHTML = data);
@@ -98,35 +88,5 @@
     fetch("components/footer.html")
       .then(res => res.text())
       .then(data => document.getElementById("footer-placeholder").innerHTML = data);
-
-    // Contoh data dummy grafik
-    const ctx = document.getElementById('vehicleChart');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Total', 'BBM', 'Hybrid', 'Listrik'],
-        datasets: [{
-          label: 'Jumlah Kendaraan',
-          data: [6, 3, 2, 1],
-          backgroundColor: [
-            'rgba(13,110,253,0.7)', // primary
-            'rgba(220,53,69,0.7)',  // danger
-            'rgba(25,135,84,0.7)',  // success
-            'rgba(255,193,7,0.7)'   // warning
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: true }
-        },
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-  </script></body>
+  </script>  <script src="assets/js/main.js"></script></body>
 </html>
