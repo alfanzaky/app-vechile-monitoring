@@ -1,8 +1,10 @@
+// navbar.js
 const currentPage = window.location.pathname.split('/').pop();
 const navMenu = document.getElementById('nav-menu');
-const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; // opsional kalau nanti pakai auth
 
 if (navMenu) {
+  // Kalau bukan di index.html, tambahin link ke Beranda
   if (currentPage !== "index.html") {
     navMenu.innerHTML += `
       <li class="nav-item">
@@ -10,11 +12,13 @@ if (navMenu) {
       </li>`;
   }
 
+  // Link ke halaman Tentang
   navMenu.innerHTML += `
     <li class="nav-item">
       <a class="nav-link" href="/app-vehicle-monitoring/pages/tentang.html">Tentang</a>
     </li>`;
 
+  // Login atau Profil
   if (isLoggedIn) {
     navMenu.innerHTML += `
       <li class="nav-item">
