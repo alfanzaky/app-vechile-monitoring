@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,6 +6,11 @@
   <title>Dashboard Kendaraan</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
 </head>
 <body>
 
@@ -68,44 +72,43 @@
   <!-- Footer dinamis -->
   <div id="footer-placeholder" class="mt-5"></div>
 
+  <!-- Inisialisasi Firebase dan Load Komponen -->
   <script>
-  // Inisialisasi Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyBTg2n5VbxK4TE_PXApgVAkXZrIzgcZyg4",
-    authDomain: "app-vechile-monitoring.firebaseapp.com",
-    projectId: "app-vechile-monitoring",
-    storageBucket: "app-vechile-monitoring.firebasestorage.app",
-    messagingSenderId: "711559642671",
-    appId: "1:711559642671:web:101441af216de18cdb50da"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTg2n5VbxK4TE_PXApgVAkXZrIzgcZyg4",
+      authDomain: "app-vechile-monitoring.firebaseapp.com",
+      projectId: "app-vechile-monitoring",
+      storageBucket: "app-vechile-monitoring.firebasestorage.app",
+      messagingSenderId: "711559642671",
+      appId: "1:711559642671:web:101441af216de18cdb50da"
+    };
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const storage = firebase.storage();
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
-  // Load Navbar dan Footer dulu, baru jalankan main.js
-  Promise.all([
-    fetch("components/navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar-placeholder").innerHTML = data;
-        const navbarScript = document.createElement("script");
-        navbarScript.src = "assets/js/navbar.js";
-        document.body.appendChild(navbarScript);
-      }),
+    Promise.all([
+      fetch("components/navbar.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+          requestAnimationFrame(() => {
+            const navbarScript = document.createElement("script");
+            navbarScript.src = "assets/js/navbar.js";
+            document.body.appendChild(navbarScript);
+          });
+        }),
 
-    fetch("components/footer.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("footer-placeholder").innerHTML = data;
-      })
-  ]).then(() => {
-    // Setelah semua siap, baru load main.js
-    const mainScript = document.createElement("script");
-    mainScript.src = "assets/js/main.js";
-    document.body.appendChild(mainScript);
-  });
-</script>
-
+      fetch("components/footer.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("footer-placeholder").innerHTML = data;
+        })
+    ]).then(() => {
+      const mainScript = document.createElement("script");
+      mainScript.src = "assets/js/main.js";
+      document.body.appendChild(mainScript);
+    });
+  </script>
 </body>
 </html>
