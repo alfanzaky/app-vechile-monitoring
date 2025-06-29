@@ -1,37 +1,39 @@
-// File: assets/js/navbar.js
-
 console.log("navbar.js loaded!");
-.addEventListener("DOMContentLoaded", () => {
-  const currentPage = window.location.pathname.split("/").pop();
-  const navMenu = document.getElementById("nav-menu");
-  const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; // opsional
 
-  if (!navMenu) return;
+// Deteksi path untuk GitHub Pages
+const currentPath = window.location.pathname;
+const currentPage = currentPath.substring(currentPath.lastIndexOf("/") + 1) || "index.html";
 
-  // Tambah Beranda jika bukan index.html
-  if (currentPage !== "index.html" && currentPage !== "") {
+console.log("Current page:", currentPage);
+
+const navMenu = document.getElementById('nav-menu');
+const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+
+if (navMenu) {
+  // Kalau bukan di index.html, tambahin link ke Beranda
+  if (currentPage !== "index.html") {
     navMenu.innerHTML += `
       <li class="nav-item">
-        <a class="nav-link" href="/app-vehicle-monitoring/index.html">Beranda</a>
+        <a class="nav-link" href="/app-vechile-monitoring/index.html">Beranda</a>
       </li>`;
   }
 
-  // Tambah menu Tentang
+  // Link ke halaman Tentang
   navMenu.innerHTML += `
     <li class="nav-item">
-      <a class="nav-link" href="/app-vehicle-monitoring/pages/tentang.html">Tentang</a>
+      <a class="nav-link" href="/app-vechile-monitoring/pages/tentang.html">Tentang</a>
     </li>`;
 
-  // Menu Login atau Profil
+  // Login atau Profil
   if (isLoggedIn) {
     navMenu.innerHTML += `
       <li class="nav-item">
-        <a class="nav-link" href="/app-vehicle-monitoring/pages/profil.html">Profil</a>
+        <a class="nav-link" href="/app-vechile-monitoring/pages/profil.html">Profil</a>
       </li>`;
   } else {
     navMenu.innerHTML += `
       <li class="nav-item">
-        <a class="nav-link" href="/app-vehicle-monitoring/pages/login.html">Login</a>
+        <a class="nav-link" href="/app-vechile-monitoring/pages/login.html">Login</a>
       </li>`;
   }
-});
+}
