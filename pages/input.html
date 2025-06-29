@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tambah Kendaraan</title>
+  <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
 
+  <!-- Navbar dinamis -->
+  <div id="navbar-placeholder"></div>
+
+  <div class="container my-5">
+    <h2 class="mb-4 text-center">Tambah Data Kendaraan</h2>
+    <form id="form-kendaraan">
+      <div class="mb-3">
+        <label for="namaKendaraan" class="form-label">Nama / Tipe Kendaraan</label>
+        <input type="text" class="form-control" id="namaKendaraan" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="platNomor" class="form-label">Nomor Plat</label>
+        <input type="text" class="form-control" id="platNomor" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="jenisBahanBakar" class="form-label">Jenis Bahan Bakar</label>
+        <select class="form-select" id="jenisBahanBakar" required>
+          <option value="">-- Pilih Jenis --</option>
+          <option value="BBM">BBM</option>
+          <option value="Hybrid">Hybrid</option>
+          <option value="Listrik">Listrik</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="tglServiceTerakhir" class="form-label">Tanggal Servis Terakhir</label>
+        <input type="date" class="form-control" id="tglServiceTerakhir" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="jadwalService" class="form-label">Jadwal Servis Berikutnya</label>
+        <input type="date" class="form-control" id="jadwalService" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Simpan Data Kendaraan</button>
+    </form>
+  </div>
+
+  <!-- Footer dinamis -->
+  <div id="footer-placeholder" class="mt-5"></div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyChSyKm7Oj0YX2qI0krdAD9csmUcKmFgrM",
+      authDomain: "app-vechile-monitoring-9d457.firebaseapp.com",
+      projectId: "app-vechile-monitoring-9d457",
+      storageBucket: "app-vechile-monitoring-9d457.firebasestorage.app",
+      messagingSenderId: "138995010284",
+      appId: "1:138995010284:web:2f9af2aef9959678c6f3c9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Submit form
+    document.getElementById("form-kendaraan").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        namaKendaraan: document.getElementById("namaKendaraan").value,
+        platNomor: document.getElementById("platNomor").value,
+        jenisBahanBakar: document.getElementById("jenisBahanBakar").value,
+        tglServiceTerakhir: document.getElementById("tglServiceTerakhir").value,
+        jadwalService: document.getElementById("jadwalService").value,
+        fotoUrl: "" // Kosong karena pakai gambar default
+      };
+
+      try {
+        await addDoc(collection(db, "kendaraan"), data);
+        alert("✅ Data berhasil disimpan!");
+        window.location.href = "../index.html";
+      } catch (err) {
+        console.error("❌ Gagal simpan:", err);
+        alert("Terjadi kesalahan saat menyimpan data.");
+      }
+    });
+  </script>
+
+  <!-- Navbar/Footer Loader -->
+  <script>
+    fetch("../components/navbar.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("navbar-placeholder").innerHTML = data);
+
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer-placeholder").innerHTML = data);
+  </script>
+</body>
+</html>
