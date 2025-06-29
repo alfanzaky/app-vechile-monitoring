@@ -68,49 +68,44 @@
   <!-- Footer dinamis -->
   <div id="footer-placeholder" class="mt-5"></div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
-  
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBTg2n5VbxK4TE_PXApgVAkXZrIzgcZyg4",
-      authDomain: "app-vechile-monitoring.firebaseapp.com",
-      projectId: "app-vechile-monitoring",
-      storageBucket: "app-vechile-monitoring.firebasestorage.app",
-      messagingSenderId: "711559642671",
-      appId: "1:711559642671:web:101441af216de18cdb50da"
-    };
+  // Inisialisasi Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyBTg2n5VbxK4TE_PXApgVAkXZrIzgcZyg4",
+    authDomain: "app-vechile-monitoring.firebaseapp.com",
+    projectId: "app-vechile-monitoring",
+    storageBucket: "app-vechile-monitoring.firebasestorage.app",
+    messagingSenderId: "711559642671",
+    appId: "1:711559642671:web:101441af216de18cdb50da"
+  };
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-  </script>
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
 
-  <!-- Load Komponen Dinamis dan Main Logic -->
-  <script>
-    // Load Navbar dan Footer lalu jalankan main.js
-    const loadNavbar = fetch("components/navbar.html")
+  // Load Navbar dan Footer dulu, baru jalankan main.js
+  Promise.all([
+    fetch("components/navbar.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("navbar-placeholder").innerHTML = data;
         const navbarScript = document.createElement("script");
         navbarScript.src = "assets/js/navbar.js";
         document.body.appendChild(navbarScript);
-      });
+      }),
 
-    const loadFooter = fetch("components/footer.html")
+    fetch("components/footer.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("footer-placeholder").innerHTML = data;
-      });
+      })
+  ]).then(() => {
+    // Setelah semua siap, baru load main.js
+    const mainScript = document.createElement("script");
+    mainScript.src = "assets/js/main.js";
+    document.body.appendChild(mainScript);
+  });
+</script>
 
-    Promise.all([loadNavbar, loadFooter]).then(() => {
-      const mainScript = document.createElement("script");
-      mainScript.src = "assets/js/main.js";
-      document.body.appendChild(mainScript);
-    });
-  </script>
 </body>
 </html>
