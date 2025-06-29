@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Vehicle Monitoring</title>
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="navbar-placeholder"></div>  <main class="container py-5">
+    <h1 class="mb-4">Dashboard Monitoring Kendaraan</h1><div class="row g-4">
+  <div class="col-md-3">
+    <div class="card border-primary">
+      <div class="card-body text-center">
+        <h5 class="card-title">Total Kendaraan</h5>
+        <p class="card-text display-6" id="total-kendaraan">0</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-danger">
+      <div class="card-body text-center">
+        <h5 class="card-title">Kendaraan BBM</h5>
+        <p class="card-text display-6" id="total-bbm">0</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-success">
+      <div class="card-body text-center">
+        <h5 class="card-title">Kendaraan Hybrid</h5>
+        <p class="card-text display-6" id="total-hybrid">0</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-warning">
+      <div class="card-body text-center">
+        <h5 class="card-title">Kendaraan Listrik</h5>
+        <p class="card-text display-6" id="total-listrik">0</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5">
+  <h4>Info Singkat</h4>
+  <ul>
+    <li>Gunakan menu <strong>Input Data</strong> untuk menambahkan kendaraan baru.</li>
+    <li>Riwayat kendaraan akan muncul di halaman <strong>Riwayat</strong>.</li>
+    <li>Data saat ini disimpan sementara di browser (local storage).</li>
+  </ul>
+</div>
+
+  </main>  <!-- Footer -->  <div id="footer-placeholder"></div>  <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>  <script src="assets/js/main.js"></script>  <script>
+    // Load navbar dan footer secara dinamis
+    fetch("components/navbar.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("navbar-placeholder").innerHTML = data);
+
+    fetch("components/footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer-placeholder").innerHTML = data);
+  </script></body>
+</html>
