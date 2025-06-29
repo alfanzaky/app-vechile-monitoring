@@ -1,86 +1,77 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard Kendaraan</title>
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <!-- Navbar -->
-  <div id="navbar-placeholder"></div>  <div class="container mt-5">
-    <!-- Total Kendaraan -->
+
+  <!-- Navbar dinamis -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Konten utama -->
+  <div class="container mt-5">
+    <!-- Kartu Total Kendaraan -->
     <div class="card text-bg-primary mb-4 shadow">
       <div class="card-body text-center">
         <h4 class="card-title">Total Kendaraan</h4>
         <h1 id="total-kendaraan">0</h1>
       </div>
-    </div><!-- Kategori Kendaraan -->
-<div class="row" id="kategori-kendaraan">
-  <!-- Card BBM -->
-  <div class="col-md-4 mb-4">
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-danger text-white">
-        <div class="d-flex align-items-center">
-          <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
-          <h5 class="mb-0">Kendaraan BBM</h5>
+    </div>
+
+    <!-- Kategori Kendaraan -->
+    <div class="row" id="kategori-kendaraan">
+      <!-- BBM -->
+      <div class="col-md-4 mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-danger text-white d-flex align-items-center">
+            <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
+            <h5 class="mb-0">Kendaraan BBM</h5>
+          </div>
+          <div class="card-body" id="list-bbm"></div>
         </div>
       </div>
-      <div class="card-body" id="list-bbm">
-        <!-- Data BBM muncul di sini -->
+
+      <!-- Hybrid -->
+      <div class="col-md-4 mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-success text-white d-flex align-items-center">
+            <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
+            <h5 class="mb-0">Kendaraan Hybrid</h5>
+          </div>
+          <div class="card-body" id="list-hybrid"></div>
+        </div>
       </div>
+
+      <!-- Listrik -->
+      <div class="col-md-4 mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-info text-white d-flex align-items-center">
+            <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
+            <h5 class="mb-0">Kendaraan Listrik</h5>
+          </div>
+          <div class="card-body" id="list-listrik"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tombol Tambah -->
+    <div class="text-center mt-4">
+      <a href="pages/input.html" class="btn btn-primary btn-lg shadow">➕ Tambah Kendaraan</a>
     </div>
   </div>
 
-  <!-- Card Hybrid -->
-  <div class="col-md-4 mb-4">
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-success text-white">
-        <div class="d-flex align-items-center">
-          <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
-          <h5 class="mb-0">Kendaraan Hybrid</h5>
-        </div>
-      </div>
-      <div class="card-body" id="list-hybrid">
-        <!-- Data Hybrid muncul di sini -->
-      </div>
-    </div>
-  </div>
+  <!-- Footer dinamis -->
+  <div id="footer-placeholder" class="mt-5"></div>
 
-  <!-- Card Listrik -->
-  <div class="col-md-4 mb-4">
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-info text-white">
-        <div class="d-flex align-items-center">
-          <div class="rounded-circle bg-white me-2" style="width: 20px; height: 20px;"></div>
-          <h5 class="mb-0">Kendaraan Listrik</h5>
-        </div>
-      </div>
-      <div class="card-body" id="list-listrik">
-        <!-- Data Listrik muncul di sini -->
-      </div>
-    </div>
-  </div>
-</div>
+  <!-- Firebase SDK -->
+  <script type="module" src="assets/js/main.js"></script>
 
-<!-- Tombol Tambah -->
-<div class="text-center mt-4">
-  <a href="pages/input.html" class="btn btn-primary btn-lg shadow">➕ Tambah Kendaraan</a>
-</div>
-
-  </div>  <!-- Footer -->  <div id="footer-placeholder" class="mt-5"></div>  <!-- Firebase SDKs -->  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBTg2n5VbxK4TE_PXApgVAkXZrIzgcZyg4",
-      authDomain: "app-vechile-monitoring.firebaseapp.com",
-      projectId: "app-vechile-monitoring",
-      storageBucket: "app-vechile-monitoring.firebasestorage.app",
-      messagingSenderId: "711559642671",
-      appId: "1:711559642671:web:101441af216de18cdb50da"
-    };
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-  </script>  <!-- Script Loader -->  <script>
+  <!-- Navbar & Footer Loader -->
+  <script>
     fetch("components/navbar.html")
       .then(res => res.text())
       .then(data => document.getElementById("navbar-placeholder").innerHTML = data);
@@ -88,5 +79,6 @@
     fetch("components/footer.html")
       .then(res => res.text())
       .then(data => document.getElementById("footer-placeholder").innerHTML = data);
-  </script>  <script src="assets/js/main.js"></script></body>
+  </script>
+</body>
 </html>
