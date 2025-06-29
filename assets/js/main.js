@@ -1,23 +1,76 @@
-// main.js
+// Firebase import module dari CDN
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-// Fungsi bantu buat render deskripsi kendaraan function renderKendaraan(data, containerId) { const container = document.getElementById(containerId); container.innerHTML = ''; // bersihin kontainer
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyChSyKm7Oj0YX2qI0krdAD9csmUcKmFgrM",
+  authDomain: "app-vechile-monitoring-9d457.firebaseapp.com",
+  projectId: "app-vechile-monitoring-9d457",
+  storageBucket: "app-vechile-monitoring-9d457.firebasestorage.app",
+  messagingSenderId: "138995010284",
+  appId: "1:138995010284:web:2f9af2aef9959678c6f3c9"
+};
 
-data.forEach(doc => { const kendaraan = doc.data(); const div = document.createElement('div'); div.className = 'mb-3 p-2 border rounded shadow-sm'; div.innerHTML = <div class="d-flex"> <img src="${kendaraan.fotoUrl}" alt="${kendaraan.nama}" class="me-3 rounded" style="width: 80px; height: 60px; object-fit: cover;"> <div> <h6 class="mb-1">${kendaraan.nama}</h6> <p class="mb-0">Plat: ${kendaraan.plat}</p> <p class="mb-0">Bahan Bakar: ${kendaraan.jenis}</p> <p class="mb-0">Servis Terakhir: ${kendaraan.servisTerakhir}</p> <p class="mb-0">Servis Berikutnya: ${kendaraan.servisBerikut}</p> </div> </div>; container.appendChild(div); }); }
+// Init Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-// Ambil data dari Firebase saat halaman ready window.addEventListener('DOMContentLoaded', () => { db.collection("kendaraan").get().then(snapshot => { const semuaData = snapshot.docs;
+// Helper untuk gambar default berdasarkan jenis kendaraan
+function getDefaultImage(jenis) {
+  switch (jenis) {
+    case 'BBM': return 'assets/img/bbm.jpg';
+    case 'Hybrid': return 'assets/img/hybrid.jpg';
+    case 'Listrik': return 'assets/img/listrik.jpg';
+    default: return 'assets/img/default.jpg';
+  }
+}
 
-// Tampilkan total kendaraan
-document.getElementById("total-kendaraan").innerText = semuaData.length;
+// Load data dari Firestore
+async function loadData() {
+  const querySnapshot = await getDocs(collection(db, "kendaraan"));
 
-// Filter berdasarkan jenis
-const bbm = semuaData.filter(doc => doc.data().jenis.toLowerCase() === 'bbm');
-const hybrid = semuaData.filter(doc => doc.data().jenis.toLowerCase() === 'hybrid');
-const listrik = semuaData.filter(doc => doc.data().jenis.toLowerCase() === 'listrik');
+  let total = 0;
+  let listBBM = "", listHybrid = "", listListrik = "";
 
-// Render ke masing-masing kartu
-renderKendaraan(bbm, 'list-bbm');
-renderKendaraan(hybrid, 'list-hybrid');
-renderKendaraan(listrik, 'list-listrik');
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    total++;
 
-}).catch(error => { console.error("Gagal mengambil data dari Firebase:", error); }); });
+    const jenis = data.jenisBahanBakar || "BBM";
+    const foto = data.fotoUrl && data.fotoUrl.trim() !== "" ? data.fotoUrl : getDefaultImage(jenis);
 
+    const card = `
+      <div class="card mb-3 shadow-sm">
+        <div class="row g-0">
+          <div class="col-4">
+            <img src="${foto}" class="img-fluid rounded-start h-100 object-fit-cover" alt="foto kendaraan">
+          </div>
+          <div class="col-8">
+            <div class="card-body p-2">
+              <h6 class="card-title mb-1">${data.namaKendaraan}</h6>
+              <p class="mb-1"><strong>Plat:</strong> ${data.platNomor}</p>
+              <p class="mb-1"><strong>Bahan Bakar:</strong> ${jenis}</p>
+              <p class="mb-1"><strong>Servis Terakhir:</strong> ${data.tglServiceTerakhir}</p>
+              <p class="mb-0"><strong>Servis Berikutnya:</strong> ${data.jadwalService}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Masukkan card ke kategori yang sesuai
+    if (jenis === "BBM") listBBM += card;
+    else if (jenis === "Hybrid") listHybrid += card;
+    else if (jenis === "Listrik") listListrik += card;
+  });
+
+  // Update UI
+  document.getElementById("total-kendaraan").textContent = total;
+  document.getElementById("list-bbm").innerHTML = listBBM || "<p class='text-muted'>Belum ada data.</p>";
+  document.getElementById("list-hybrid").innerHTML = listHybrid || "<p class='text-muted'>Belum ada data.</p>";
+  document.getElementById("list-listrik").innerHTML = listListrik || "<p class='text-muted'>Belum ada data.</p>";
+}
+
+// Jalankan load
+loadData();
