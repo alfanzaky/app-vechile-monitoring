@@ -5,38 +5,54 @@
   <title>Dashboard - Vehicle Monitoring</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <!-- Navbar -->
   <div id="navbar-placeholder"></div>  <main class="container py-5">
-    <h1 class="mb-4">Dashboard Monitoring Kendaraan</h1><div class="row g-4">
-  <div class="col-md-3">
-    <div class="card border-primary">
+    <h1 class="mb-4">Dashboard Monitoring Kendaraan</h1><!-- Total Kendaraan -->
+<div class="row mb-4">
+  <div class="col-md-12">
+    <div class="card border-primary shadow-sm">
       <div class="card-body text-center">
         <h5 class="card-title">Total Kendaraan</h5>
-        <p class="card-text display-6" id="total-kendaraan">0</p>
+        <p class="card-text display-4 fw-bold" id="total-kendaraan">0</p>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
-    <div class="card border-danger">
+</div>
+
+<!-- 3 Jenis Kendaraan -->
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card border-danger shadow-sm">
       <div class="card-body text-center">
+        <div class="rounded-circle bg-danger text-white d-inline-flex align-items-center justify-content-center mb-2" style="width:40px; height:40px;">
+          <i class="bi bi-fuel-pump"></i>
+        </div>
         <h5 class="card-title">Kendaraan BBM</h5>
         <p class="card-text display-6" id="total-bbm">0</p>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
-    <div class="card border-success">
+  <div class="col-md-4">
+    <div class="card border-success shadow-sm">
       <div class="card-body text-center">
+        <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-2" style="width:40px; height:40px;">
+          <i class="bi bi-lightning-charge"></i>
+        </div>
         <h5 class="card-title">Kendaraan Hybrid</h5>
         <p class="card-text display-6" id="total-hybrid">0</p>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
-    <div class="card border-warning">
+  <div class="col-md-4">
+    <div class="card border-warning shadow-sm">
       <div class="card-body text-center">
+        <div class="rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center mb-2" style="width:40px; height:40px;">
+          <i class="bi bi-battery-charging"></i>
+        </div>
         <h5 class="card-title">Kendaraan Listrik</h5>
         <p class="card-text display-6" id="total-listrik">0</p>
       </div>
@@ -44,7 +60,28 @@
   </div>
 </div>
 
-<div class="mt-5">
+<!-- Grafik Statistik -->
+<div class="my-5">
+  <h4>Statistik Grafik Kendaraan</h4>
+  <canvas id="vehicleChart" height="100"></canvas>
+</div>
+
+<!-- Monitoring Terbaru -->
+<div class="card mb-5">
+  <div class="card-header bg-light fw-bold">Monitoring Kendaraan Terbaru</div>
+  <div class="card-body">
+    <ul class="mb-0">
+      <li><strong>Plat Nomor:</strong> B 1234 XYZ</li>
+      <li><strong>Jenis:</strong> Hybrid</li>
+      <li><strong>Odometer:</strong> 82.400 KM</li>
+      <li><strong>Servis Terakhir:</strong> 10 Juni 2025</li>
+      <li><strong>Status Servis:</strong> ⚠️ Segera diservis</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Info Singkat -->
+<div class="mb-5">
   <h4>Info Singkat</h4>
   <ul>
     <li>Gunakan menu <strong>Input Data</strong> untuk menambahkan kendaraan baru.</li>
@@ -54,7 +91,6 @@
 </div>
 
   </main>  <!-- Footer -->  <div id="footer-placeholder"></div>  <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>  <script src="assets/js/main.js"></script>  <script>
-    // Load navbar dan footer secara dinamis
     fetch("components/navbar.html")
       .then(res => res.text())
       .then(data => document.getElementById("navbar-placeholder").innerHTML = data);
@@ -62,5 +98,35 @@
     fetch("components/footer.html")
       .then(res => res.text())
       .then(data => document.getElementById("footer-placeholder").innerHTML = data);
+
+    // Contoh data dummy grafik
+    const ctx = document.getElementById('vehicleChart');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Total', 'BBM', 'Hybrid', 'Listrik'],
+        datasets: [{
+          label: 'Jumlah Kendaraan',
+          data: [6, 3, 2, 1],
+          backgroundColor: [
+            'rgba(13,110,253,0.7)', // primary
+            'rgba(220,53,69,0.7)',  // danger
+            'rgba(25,135,84,0.7)',  // success
+            'rgba(255,193,7,0.7)'   // warning
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: true }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
   </script></body>
 </html>
