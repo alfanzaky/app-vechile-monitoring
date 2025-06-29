@@ -89,24 +89,31 @@
   </script>
 
   <!-- Load Komponen Dinamis -->
-  <script>
-    fetch("components/navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar-placeholder").innerHTML = data;
-        const navbarScript = document.createElement("script");
-        navbarScript.src = "assets/js/navbar.js";
-        document.body.appendChild(navbarScript);
-      });
+<script>
+  // Load Navbar
+  const loadNavbar = fetch("components/navbar.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("navbar-placeholder").innerHTML = data;
+      const navbarScript = document.createElement("script");
+      navbarScript.src = "assets/js/navbar.js";
+      document.body.appendChild(navbarScript);
+    });
 
-    fetch("components/footer.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("footer-placeholder").innerHTML = data;
-      });
-  </script>
+  // Load Footer
+  const loadFooter = fetch("components/footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    });
 
-  <!-- Main Logic -->
-  <script src="assets/js/main.js"></script>
+  // Setelah navbar & footer selesai, baru jalankan main.js
+  Promise.all([loadNavbar, loadFooter]).then(() => {
+    const mainScript = document.createElement("script");
+    mainScript.src = "assets/js/main.js";
+    document.body.appendChild(mainScript);
+  });
+</script>
+
 </body>
 </html>
